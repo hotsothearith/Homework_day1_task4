@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Drawing App</title>
+    <style>
+        canvas {
+            border: 1px solid #000000;
+            cursor: crosshair;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Basic Drawing App</h1>
+
+    <!-- Canvas Element -->
+    <canvas id="drawCanvas" width="600" height="400"></canvas>
+
+    <script>
+        // Get the canvas element and context
+        var canvas = document.getElementById('drawCanvas');
+        var ctx = canvas.getContext('2d');
+
+        // Variables to keep track of drawing state
+        var drawing = false;
+
+        // Function to start drawing
+        function startDrawing(e) {
+            drawing = true;
+            ctx.beginPath(); // Begin a new path
+            ctx.moveTo(e.offsetX, e.offsetY); // Move to the current mouse position
+        }
+
+        // Function to draw on the canvas
+        function draw(e) {
+            if (!drawing) return; // If not in drawing mode, do nothing
+            ctx.lineTo(e.offsetX, e.offsetY); // Draw a line to the current mouse position
+            ctx.stroke(); // Actually draw the line
+        }
+
+        // Function to stop drawing
+        function stopDrawing() {
+            drawing = false;
+            ctx.closePath(); // End the path when the mouse is released
+        }
+
+        // Event listeners for mouse actions
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing); // Stop drawing when mouse leaves the canvas
+    </script>
+
+</body>
+</html>

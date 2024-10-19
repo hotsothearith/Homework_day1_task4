@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic Drawing App</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="600" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+
+canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    [lastX, lastY] = getMousePos(canvas, e);
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (isDrawing) {
+        const [x, y] = getMousePos(canvas, e);
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        [lastX, lastY] = [x, y];
+    }
+});
+
+canvas.addEventListener('mouseup', () => {
+    isDrawing = false;
+});
+
+canvas.addEventListener('mouseout', () => {
+    isDrawing = false;
+});
+
+function getMousePos(canvas, evt) {
+    const rect = canvas.getBoundingClientRect();
+    return [evt.clientX - rect.left, evt.clientY - rect.top];
+}
+    </script>
+</body>
+</html>
